@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,12 +55,9 @@ export default function CadCliente() {
         resolver: zodResolver(schema)  // Validação Zod
     });
 
-    async function cadastraCliente(data: FormData) {
+    const navigate = useNavigate()
 
-        // if (data.senha != data.senha2) {
-        //     toast.error("Erro... Senha e Confirme Senha precisam ser iguais")
-        //     return
-        // }
+    async function cadastraCliente(data: FormData) {
 
         const response = await
             fetch(`${apiUrl}/clientes`, {
@@ -78,7 +75,9 @@ export default function CadCliente() {
         if (response.status == 201) {
             toast.success("Ok! Cadastro realizado com sucesso...")
             // carrega a página principal, após login do cliente
-            // navigate("/login")
+            setTimeout(() => {
+                navigate("/login");
+            }, 3000);  // Aguarda 3 segundos (3000 ms)
         } else {
             toast.error("Erro... Não foi possível realizar o cadastro")
         }
@@ -116,13 +115,13 @@ export default function CadCliente() {
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha de Acesso:</label>
                                 <input type="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required
                                     {...register("senha")} />
-                                {errors.senha && <p role="alert" className="error">{errors.senha.message}</p>}                                    
+                                {errors.senha && <p role="alert" className="error">{errors.senha.message}</p>}
                             </div>
                             <div>
                                 <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirme a Senha:</label>
                                 <input type="password" id="confirm-password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required
                                     {...register("senha2")} />
-                                {errors.senha2 && <p role="alert" className="error">{errors.senha2.message}</p>}                                    
+                                {errors.senha2 && <p role="alert" className="error">{errors.senha2.message}</p>}
                             </div>
                             <button type="submit" className="w-full text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-amber-400 dark:hover:bg-amber-500 dark:focus:ring-amber-800">Criar sua Conta</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
