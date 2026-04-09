@@ -51,7 +51,7 @@ type FormData = z.infer<typeof schema>
 const apiUrl = import.meta.env.VITE_API_URL
 
 export default function CadCliente() {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema)  // Validação Zod
     });
 
@@ -71,16 +71,27 @@ export default function CadCliente() {
                 })
             })
 
-        console.log(response)
+
         if (response.status == 201) {
             toast.success("Ok! Cadastro realizado com sucesso...")
             // carrega a página principal, após login do cliente
             setTimeout(() => {
-                navigate("/login");
-            }, 3000);  // Aguarda 3 segundos (3000 ms)
+                navigate("/login")
+            }, 3000)  // Aguarda 3 segundos (3000 ms)
         } else {
-            toast.error("Erro... Não foi possível realizar o cadastro")
+            
+            const responseData = await response.json()
+            console.log(responseData)
+            // Erro específico de e-mail duplicado
+            if (responseData.erro == "E-mail já cadastrado") {
+                setError("email", { type: "server", message: responseData.erro })
+                toast.error(responseData.erro)
+                return
+            }
+            // Outros erros genéricos
+            toast.error(responseData.erro)
         }
+
     }
 
     return (
