@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
 
 import './CadCliente.css'
-
+ 
 // ... não precisa mais com o Zod
 // type Inputs = {
 //     nome: string
