@@ -14,6 +14,8 @@ import AdminLayout from './admin/AdminLayout.tsx';
 import AdminLogin from './admin/AdminLogin.tsx';            
 import AdminDashboard from './admin/AdminDashboard.tsx';    
 import AdminCarros from './admin/AdminCarros.tsx';          
+import AdminNovoCarro from './admin/AdminNovoCarro.tsx';          
+import AdminPropostas from './admin/AdminPropostas.tsx';       
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -28,6 +30,8 @@ const rotas = createBrowserRouter([
     children: [
       { index: true, element: <AdminDashboard /> },     // rota /admin
       { path: "carros", element: <AdminCarros /> },     // rota /admin/carros
+      { path: "carros/novo", element: <AdminNovoCarro /> },  // ...
+      { path: "propostas", element: <AdminPropostas /> },  // ...      
     ],
   },
   {
